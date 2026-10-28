@@ -5,6 +5,7 @@
 #
 # Delete the examples below and put yours in.
 
-analysis: makes an argument backed by a specific, checkable fact
-hot_take: a confident claim with no support offered
-reaction: an immediate response to something that just happened
+contextual_request: asks for a recommendation or solution and supplies at least two decision-relevant details
+supported_recommendation: recommends or discourages a game and gives at least one concrete reason connected to the reader's needs
+bare_recommendation: recommends or discourages a game but provides no concrete reason beyond its title, agreement, or generic praise
+experience_story: primarily recounts a personal event, reaction, or memory about playing a game without principally asking for or providing a recommendation

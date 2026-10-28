@@ -38,7 +38,14 @@
 <!-- ═══════════════════════ UNIT 5 — THE BUILD ═══════════════════════ -->
 
 ## What This Does
-
+TakeMeter classifies public posts and comments from `r/boardgames`, a large
+public community with enough varied text to collect at least 200 examples.
+I first read a sample of 36 posts and comments from recommendation threads and
+general discussions. The classifier separates context-rich requests,
+recommendations with concrete support, unsupported recommendations, and
+personal experience stories. These distinctions describe visible features of
+the writing rather than making a subjective judgment that a post is simply
+"good" or "bad."
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
@@ -54,34 +61,90 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `contextual_request`
 
-**Definition:**
-
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** A post that asks for a recommendation or solution and supplies
+at least two decision-relevant details, such as player count, age, time,
+complexity, budget, previous games, or preferred mechanics.
 
 **Example 1:**
->
+> A requester says the gift recipient is 12, rules out games that are too
+> mature or childish, and wants something that does not require a TV or PC.
+> [Source](https://www.reddit.com/r/boardgames/comments/1pdsee4/daily_game_recommendations_thread_december_04_2025/)
 
 **Example 2:**
->
+> A couple lists games they regularly play, explains that one player dislikes
+> a heavier game, and specifies that the new game must work well for two.
+> [Source](https://www.reddit.com/r/boardgames/comments/1pdsee4/daily_game_recommendations_thread_december_04_2025/)
+
+### `supported_recommendation`
+
+**Definition:** A post recommends or discourages a game and gives at least one
+concrete reason connected to the reader's needs, such as player count,
+duration, mechanics, complexity, interaction, or observed play experience.
+
+**Example 1:**
+> A response recommends *Five Tribes* because it works with two players, uses
+> a mancala mechanism, has quick rules, and may produce analysis paralysis.
+> [Source](https://www.reddit.com/r/boardgames/comments/1pdsee4/daily_game_recommendations_thread_december_04_2025/)
+
+**Example 2:**
+> A commenter discourages *Oath* for a group that meets only once or twice per
+> year because its evolving campaign and kingmaking work better with repeated
+> play.
+> [Source](https://www.reddit.com/r/boardgames/comments/1p0afkn/do_you_know_an_eventworthy_boardgame_that_fits_in/)
+
+### `bare_recommendation`
+
+**Definition:** A post recommends or discourages a game but provides no
+concrete reason beyond its title, agreement, or generic praise such as
+"great," "fun," or "the best."
+
+**Example 1:**
+> "Oath is an option."
+> [Source](https://www.reddit.com/r/boardgames/comments/1p0afkn/do_you_know_an_eventworthy_boardgame_that_fits_in/)
+
+**Example 2:**
+> A response lists *Castles of Burgundy*, *Viticulture*, *Quacks*, and *7
+> Wonders Duel* without explaining why they fit the requester.
+> [Source](https://www.reddit.com/r/boardgames/comments/1pdsee4/daily_game_recommendations_thread_december_04_2025/)
+
+### `experience_story`
+
+**Definition:** A post primarily recounts a personal event, reaction, or
+memory about playing a game and does not principally ask for or provide a
+recommendation.
+
+**Example 1:**
+> A player describes repeatedly becoming angry while playing *Risk*, sometimes
+> flipping the board, and later managing the same frustration as an adult.
+> [Source](https://www.reddit.com/r/boardgames/comments/1un33tq/which_game_made_one_of_your_players_throw_a/)
+
+**Example 2:**
+> A player explains that *Spartacus* became a lasting favorite and that the
+> group still remembers particular games roughly twelve years later.
+> [Source](https://www.reddit.com/r/boardgames/comments/1c73oi0/whats_the_first_board_game_you_fell_in_love_with/)
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `supported_recommendation` and `bare_recommendation`
 
 **The decision rule I used every time:**
 <!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
      if the tone is heated." -->
+If a recommendation contains at least one concrete, decision-relevant fact
+beyond the game title and generic praise, I label it
+`supported_recommendation`. Player count, playtime, complexity, mechanics,
+interaction style, comparison with another game, or a specific observation
+from play all count as support. Otherwise I label it `bare_recommendation`.
+For example, "Camel Up--8 player betting on camel races; easy to learn" is
+supported despite being brief because it supplies player count, activity, and
+learning difficulty.
 
+I apply an additional intent rule when a story and recommendation overlap: if
+the personal story is used as evidence for advice, the post is a
+`supported_recommendation`; if recounting the experience is the main purpose,
+it is an `experience_story`.
 
 
 ---
