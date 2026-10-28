@@ -155,18 +155,29 @@ it is an `experience_story`.
      cases. -->
 
 **Where the posts came from:**
+I used 200 public comments from `r/boardgames`. The text was obtained from the
+public [HuggingFaceGECLM Reddit comments dataset](https://huggingface.co/datasets/HuggingFaceGECLM/REDDIT_comments),
+whose `boardgames` split contains comments archived from public Reddit data.
+Deleted and removed comments, duplicate text, very short fragments, and
+comments outside the four-label taxonomy were excluded.
 
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
+I used an AI-assisted first pass based on the written definitions, then checked
+the selected rows against the decision rules. In particular, I checked that a
+`contextual_request` contained at least two usable constraints and that a
+`supported_recommendation` contained a concrete reason rather than praise
+alone. The `note` column in `labels.csv` records this workflow for every row.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `contextual_request` | 12 | 6.0% |
+| `supported_recommendation` | 65 | 32.5% |
+| `bare_recommendation` | 50 | 25.0% |
+| `experience_story` | 73 | 36.5% |
+| **Total** | **200** | **100%** |
 
 **Three hard cases**
 
@@ -174,25 +185,31 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* "Cranium is different from Trivial Pursuit; the questions are
+> slightly easier and more active... I recommend Cranium."
 >
-> *Could have been:*
+> *Could have been:* `bare_recommendation` or `supported_recommendation`
 >
-> *I chose, because:*
+> *I chose, because:* `supported_recommendation`, because the comparison and
+> description of the questions give concrete reasons despite the short post.
 
 **2.**
-> *The post:*
+> *The post:* "The first serious board game I ever purchased. Still a
+> favorite."
 >
-> *Could have been:*
+> *Could have been:* `bare_recommendation` or `experience_story`
 >
-> *I chose, because:*
+> *I chose, because:* `bare_recommendation`, because its function is generic
+> endorsement; the purchase reference does not develop into a narrated event.
 
 **3.**
-> *The post:*
+> *The post:* A commenter recommends against *Pandemic* and says that its
+> gameplay is too luck-based and can make a game unwinnable.
 >
-> *Could have been:*
+> *Could have been:* `bare_recommendation` or `supported_recommendation`
 >
-> *I chose, because:*
+> *I chose, because:* `supported_recommendation`, because negative advice uses
+> the same rule as positive advice and the luck claim is a concrete reason.
 
 ---
 
@@ -225,9 +242,13 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Candidate distinctions visible in an initial sample of
+  public `r/boardgames` discussions.
+- *What came back:* Four candidate intent-and-evidence labels and several
+  possible boundary rules.
+- *What I changed:* I replaced subjective quality language with observable
+  requirements, including a minimum of two constraints for requests and one
+  concrete reason for supported recommendations.
 
 **Moment 2**
 
@@ -236,6 +257,10 @@ of next unit's variance. -->
 - *What I changed:*
 
 **Pre-labelling disclosure:**
+AI performed a first-pass label assignment for the 200 comments. I retained
+only comments covered by the taxonomy and checked the assignments against the
+written rules. This workflow is also disclosed in the `note` column of
+`labels.csv`.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
