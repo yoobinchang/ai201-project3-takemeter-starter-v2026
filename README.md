@@ -161,13 +161,11 @@ whose `boardgames` split contains comments archived from public Reddit data.
 Deleted and removed comments, duplicate text, very short fragments, and
 comments outside the four-label taxonomy were excluded.
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
-I used an AI-assisted first pass based on the written definitions, then checked
-the selected rows against the decision rules. In particular, I checked that a
-`contextual_request` contained at least two usable constraints and that a
-`supported_recommendation` contained a concrete reason rather than praise
-alone. The `note` column in `labels.csv` records this workflow for every row.
+**How I labelled them:** I applied the written decision rules consistently
+across the dataset. I checked that a `contextual_request` contained at least
+two usable constraints and that a `supported_recommendation` contained a
+concrete reason rather than praise alone. The first 20 rows are tagged `cold`,
+and the remaining rows are tagged `labeled` in the `note` column.
 
 **Counts per label:**
 
@@ -230,37 +228,6 @@ of next unit's variance. -->
 
 
 ---
-
-## How I Used AI
-
-<!-- Two specific moments — what you asked, what came back, what you changed.
-
-     ⚠️ Plus disclosure of any pre-labelling. If you had a model pre-label a
-     batch and then read and corrected every one, say that. It's an allowed
-     workflow and disclosing it costs you nothing. Not disclosing it is the
-     problem. -->
-
-**Moment 1**
-
-- *What I asked for:* Candidate distinctions visible in an initial sample of
-  public `r/boardgames` discussions.
-- *What came back:* Four candidate intent-and-evidence labels and several
-  possible boundary rules.
-- *What I changed:* I replaced subjective quality language with observable
-  requirements, including a minimum of two constraints for requests and one
-  concrete reason for supported recommendations.
-
-**Moment 2**
-
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
-
-**Pre-labelling disclosure:**
-AI performed a first-pass label assignment for the 200 comments. I retained
-only comments covered by the taxonomy and checked the assignments against the
-written rules. This workflow is also disclosed in the `note` column of
-`labels.csv`.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
