@@ -51,63 +51,64 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall accuracy is at least 0.65 for every seed
 
-<!-- Your criterion. It must name a number. -->
+The trained classifier must achieve at least **0.65 held-out accuracy** in
+each of the three required runs (seeds 42, 7, and 2024).
 
-
-
-**Why this target:**
-
-
-
----
-
-## 2.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** With four labels, chance performance is about 0.25, so
+0.65 would be meaningfully useful rather than a small improvement over
+guessing. Requiring it for all three seeds also prevents one favorable split
+from making the model look reliable.
 
 ---
 
-## 3.
+## 2. Macro F1 is at least 0.55 for every seed
 
-<!-- Your criterion. -->
+The classifier must achieve a **macro F1 of at least 0.55** in each of the
+three runs.
 
-
-
-**Why this target:**
-
-
-
----
-
-## 4.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** Accuracy can hide poor treatment of
+`contextual_request`, which is only 6% of the dataset. Macro F1 gives every
+label equal weight; 0.55 is demanding for a 200-row, four-label dataset while
+still acknowledging the instability of the smallest class.
 
 ---
 
-## 5.
+## 3. The three larger labels each reach F1 0.60
 
-<!-- Your criterion. -->
+`supported_recommendation`, `bare_recommendation`, and `experience_story`
+must each achieve an **F1 of at least 0.60** in every seed.
 
+**Why this target:** These labels contain 65, 50, and 73 examples, so each
+should place enough examples in the held-out split to justify a stronger
+per-label target. Their hardest distinction is observable: concrete support
+versus generic praise, or advice versus narration.
 
+---
 
-**Why this target:**
+## 4. The smallest label reaches F1 0.35
 
+`contextual_request` must achieve an **F1 of at least 0.35** in every seed.
 
+**Why this target:** This label has only 12 examples, so a typical held-out
+split may contain only about two examples and one error can move its F1
+sharply. The target is intentionally lower than for the other labels, but it
+still requires the model to learn something better than never predicting the
+minority class.
+
+---
+
+## 5. Independent labelling agreement is at least 0.75
+
+On a random audit sample of at least 30 dataset posts, a second application of
+the written taxonomy must agree with the committed labels on at least **75%**
+of posts.
+
+**Why this target:** The closest boundary is between supported and bare
+recommendations, so perfect agreement is unrealistic. Agreement below 0.75
+would mean that the definitions or their application are too inconsistent for
+model errors to be interpreted confidently.
 
 ---
 
