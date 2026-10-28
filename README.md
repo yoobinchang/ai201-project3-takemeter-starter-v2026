@@ -215,16 +215,25 @@ and the remaining rows are tagged `labeled` in the `note` column.
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
 **Settings:** <!-- epochs, learning rate, batch size, seed -->
+3 epochs, learning rate `2e-5`, batch size 16, maximum length 128 tokens,
+and seed 42. Training ran on Apple Silicon GPU (`mps`) with PyTorch 2.14.1.
 
 **Anything I changed from the defaults, and why:**
+I kept all training defaults unchanged so this first run remains directly
+comparable with the course baseline and later seed runs. I changed only the
+notebook identity fields and the `LABELS` list to match `labels.csv`.
 
 **Split sizes:** <!-- train / val / test, and per-label counts in the test
 split. If a label had fewer than about 8 in test, say so — it explains a lot
 of next unit's variance. -->
-
+Train: 139, validation: 31, test: 30. The test split contains 2
+`contextual_request`, 10 `supported_recommendation`, 7 `bare_recommendation`,
+and 11 `experience_story` examples. The first and third labels have fewer than
+about eight test examples, so their per-label scores can move sharply across
+seeds; `contextual_request` is especially unstable with only two test rows.
 
 
 ---
