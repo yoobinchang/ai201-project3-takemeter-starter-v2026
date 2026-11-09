@@ -172,9 +172,9 @@ and the remaining rows are tagged `labeled` in the `note` column.
 | Label | Count | Share |
 |---|---|---|
 | `contextual_request` | 12 | 6.0% |
-| `supported_recommendation` | 65 | 32.5% |
-| `bare_recommendation` | 50 | 25.0% |
-| `experience_story` | 73 | 36.5% |
+| `supported_recommendation` | 78 | 39.0% |
+| `bare_recommendation` | 35 | 17.5% |
+| `experience_story` | 75 | 37.5% |
 | **Total** | **200** | **100%** |
 
 **Three hard cases**
@@ -445,24 +445,44 @@ all 200 project posts.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** I audited only the `bare_recommendation` boundary and
+changed 15 of the 200 labels while leaving every post, training setting, and
+other label untouched. Thirteen posts contained concrete support such as play
+time, player count, mechanics, comparison, or observed results, so I changed
+them from `bare_recommendation` to `supported_recommendation`. Two posts mainly
+reported a personal event or reaction, so I changed them from
+`bare_recommendation` to `experience_story`.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** `bare_recommendation` had 0.000 F1 in every
+seed. In the seed-42 matrix, five of its seven test posts were called
+`experience_story` and the other two were called `supported_recommendation`,
+while no post was ever predicted as bare. That directional failure pointed at
+the written boundary and its application, so I made one targeted relabeling
+change rather than also changing hyperparameters or adding data.
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.65 each seed | 0.500 | 0.467 | 0.600 | MISSED |
+| 2. Macro F1 | ≥ 0.55 each seed | 0.258 | 0.227 | 0.347 | MISSED |
+| 3. F1 for each larger label | ≥ 0.60 each seed | 0.000 minimum | 0.000 minimum | 0.000 minimum | MISSED |
+| 4. `contextual_request` F1 | ≥ 0.35 each seed | 0.000 | 0.000 | 0.000 | MISSED |
+| 5. Independent agreement | ≥ 0.75 on 30 posts | 1.000 (not seed-based) | 1.000 (not seed-based) | 1.000 (not seed-based) | MET |
 
 **Did it help, and how do I know:**
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
+No. Mean accuracy fell from 0.567 before to 0.522 after, and mean macro F1
+fell from 0.332 to 0.277. `bare_recommendation` remained at 0.000 F1 in all
+three seeds, while accuracy spread increased from 0.067 to 0.133, crossing the
+course's ten-point instability threshold. The relabeling made the written
+boundary more consistent, but it also reduced the bare class from 50 to 35
+examples and shifted the model's default toward `supported_recommendation`;
+for seed 42, eight real `experience_story` posts were then called supported.
+The change therefore made measured performance worse, and I am keeping that
+result rather than hiding the failed improvement.
 
 
 
@@ -472,11 +492,27 @@ all 200 project posts.
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
+Criteria 1 through 4 are still missed. The model still never predicts either
+`bare_recommendation` or `contextual_request`, so accuracy and macro F1 cannot
+reach their targets. My next step for `contextual_request` would be to collect
+about 30 more unambiguous examples because only 12 exist now. For
+`bare_recommendation`, I would collect new short title-only or generic-praise
+recommendations instead of removing more borderline rows; the relabeling left
+only 35 examples and did not teach the class. I stopped because the milestone
+requires one isolated change, and adding data or changing training settings in
+the same run would make its effect impossible to distinguish.
+
 
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
 <!-- Two sentences. Your confusion matrix is the evidence. -->
+I meant `bare_recommendation` to capture unsupported endorsements and
+`contextual_request` to capture requests with at least two constraints, but
+the model learned neither class and predicted zero examples of both. After the
+relabeling it instead overgeneralized concrete recommendation language,
+calling eight of eleven seed-42 `experience_story` posts
+`supported_recommendation`.
 
 
 
