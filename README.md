@@ -295,11 +295,11 @@ shows that longer definitions are not automatically a better zero-shot prompt.
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1. Overall accuracy | >= 0.65 each seed | 0.567 | 0.600 | 0.533 | MISSED |
-| 2. Macro F1 | >= 0.55 each seed | 0.337 | 0.352 | 0.306 | MISSED |
-| 3. F1 for each larger label | >= 0.60 each seed | 0.000 minimum | 0.000 minimum | 0.000 minimum | MISSED |
-| 4. `contextual_request` F1 | >= 0.35 each seed | 0.000 | 0.000 | 0.000 | MISSED |
-| 5. Independent agreement | >= 0.75 on 30 posts | 1.000 (not seed-based) | 1.000 (not seed-based) | 1.000 (not seed-based) | MET |
+| 1. Overall accuracy | ≥ 0.65 each seed | 0.567 | 0.600 | 0.533 | MISSED |
+| 2. Macro F1 | ≥ 0.55 each seed | 0.337 | 0.352 | 0.306 | MISSED |
+| 3. F1 for each larger label | ≥ 0.60 each seed | 0.000 minimum | 0.000 minimum | 0.000 minimum | MISSED |
+| 4. `contextual_request` F1 | ≥ 0.35 each seed | 0.000 | 0.000 | 0.000 | MISSED |
+| 5. Independent agreement | ≥ 0.75 on 30 posts | 1.000 (not seed-based) | 1.000 (not seed-based) | 1.000 (not seed-based) | MET |
 
 The three larger-label values report the minimum F1 among
 `supported_recommendation`, `bare_recommendation`, and `experience_story`,
@@ -311,6 +311,33 @@ ten-point instability warning, but `supported_recommendation` moved 0.172 and
 the two never-predicted labels show that overall accuracy hides severe
 per-label failure. These runs used Apple Silicon GPU (`mps`), PyTorch 2.15.0,
 and seeds 42, 7, and 2024.
+
+**Causes for the missed criteria:**
+
+1. **Overall accuracy — MISSED:** This was not mainly seed instability,
+   because accuracy moved only 0.067. The immediate cause was class collapse:
+   the model never predicted `contextual_request` or `bare_recommendation`, so
+   every true post from both labels was automatically wrong.
+2. **Macro F1 — MISSED:** Macro F1 stayed low because two of four labels had
+   0.000 F1 in every seed. Unlike accuracy, macro F1 gives those failed labels
+   equal weight, so good performance on `experience_story` could not hide
+   them.
+3. **Every larger label reaches 0.60 F1 — MISSED:**
+   `bare_recommendation` failed in all three seeds, and
+   `supported_recommendation` also fell to 0.556 for seed 2024. The matrix
+   shows the learned boundary problem directly: five of seven real bare
+   recommendations became `experience_story` and the other two became
+   `supported_recommendation`. The model learned neither side of the
+   unsupported-recommendation boundary.
+4. **`contextual_request` reaches 0.35 F1 — MISSED:** This label has only 12
+   labeled examples in the full dataset, about eight in each training split,
+   and only two in each test split. The model never predicted it in any seed,
+   so the known cause is too little minority-label evidence combined with
+   severe class imbalance.
+
+Criterion 5 was **MET**, not missed: blind application of the staff taxonomy
+matched 30 of 30 staff labels. That result supports consistent rule-following,
+although it cannot prove consistency on the different board-game taxonomy.
 
 ### Confusion matrix
 
