@@ -252,18 +252,37 @@ seeds; `contextual_request` is especially unstable with only two test rows.
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.233 | 0.600 | +0.367 |
+| Macro F1 | 0.161 | 0.356 | +0.195 |
+| F1 — `bare_recommendation` | 0.000 | 0.000 | +0.000 |
+| F1 — `contextual_request` | 0.100 | 0.000 | -0.100 |
+| F1 — `experience_story` | 0.000 | 0.643 | +0.643 |
+| F1 — `supported_recommendation` | 0.545 | 0.783 | +0.237 |
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+I predict that the trained model will beat the zero-shot baseline most clearly
+on `contextual_request` and `bare_recommendation`, because those labels depend
+on learning the taxonomy's thresholds for how many contextual details or how
+much concrete support a post contains.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
+Fine-tuning added substantial value overall: trained accuracy was 0.367 higher
+and macro F1 was 0.195 higher on the same 30 posts. My prediction was only
+partly right. The largest gain was on `experience_story` (+0.643 F1), followed
+by `supported_recommendation` (+0.237), while the trained model did not improve
+`bare_recommendation` and performed 0.100 worse on `contextual_request`. The
+zero F1 for `bare_recommendation` in both runs shows that this boundary remains
+unlearned, and the two-example support for `contextual_request` makes its F1
+too unstable for a strong conclusion. As a prompt-sensitivity check, I also
+ran the same baseline with bare label names: it reached 0.500 accuracy and
+0.397 macro F1. The written definitions therefore reduced accuracy by 0.267
+and macro F1 by 0.236 for this model, rather than helping it. I report the
+definitions-based run above because it is the planned baseline, but the control
+shows that longer definitions are not automatically a better zero-shot prompt.
 
 
 

@@ -5,7 +5,7 @@
 #
 # Delete the examples below and put yours in.
 
-contextual_request: asks for a recommendation or solution and supplies at least two decision-relevant details
-supported_recommendation: recommends or discourages a game and gives at least one concrete reason connected to the reader's needs
-bare_recommendation: recommends or discourages a game but provides no concrete reason beyond its title, agreement, or generic praise
-experience_story: primarily recounts a personal event, reaction, or memory about playing a game without principally asking for or providing a recommendation
+contextual_request: A post that asks for a recommendation or solution and supplies at least two decision-relevant details, such as player count, age, time, complexity, budget, previous games, or preferred mechanics.
+supported_recommendation: A post recommends or discourages a game and gives at least one concrete reason connected to the reader's needs, such as player count, duration, mechanics, complexity, interaction, or observed play experience.
+bare_recommendation: A post recommends or discourages a game but provides no concrete reason beyond its title, agreement, or generic praise such as "great," "fun," or "the best."
+experience_story: A post primarily recounts a personal event, reaction, or memory about playing a game and does not principally ask for or provide a recommendation.
