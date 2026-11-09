@@ -532,6 +532,17 @@ columns. Instead, the seed-42 matrix shows all two contextual requests called
 `experience_story` and the other two became `supported_recommendation`.
 
 
+## How I Used AI
+
+I used an AI model to help me spot patterns in the model's errors across the
+three seeds and confusion matrix, especially the repeated failure to predict
+`contextual_request` and `bare_recommendation` and the lopsided confusion with
+`experience_story`. I checked its observations against the committed JSON
+results and the exact matrix counts before using them in my diagnoses; the
+label definitions, final interpretations, and improvement decision remained
+my responsibility.
+
+
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
