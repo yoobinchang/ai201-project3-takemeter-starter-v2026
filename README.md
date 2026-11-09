@@ -295,27 +295,43 @@ shows that longer definitions are not automatically a better zero-shot prompt.
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | >= 0.65 each seed | 0.567 | 0.600 | 0.533 | MISSED |
+| 2. Macro F1 | >= 0.55 each seed | 0.337 | 0.352 | 0.306 | MISSED |
+| 3. F1 for each larger label | >= 0.60 each seed | 0.000 minimum | 0.000 minimum | 0.000 minimum | MISSED |
+| 4. `contextual_request` F1 | >= 0.35 each seed | 0.000 | 0.000 | 0.000 | MISSED |
+| 5. Independent agreement | >= 0.75 on 30 posts | Not seed-based | Not seed-based | Not seed-based | Pending agreement check |
+
+The three larger-label values report the minimum F1 among
+`supported_recommendation`, `bare_recommendation`, and `experience_story`,
+because criterion 3 requires every one of them to reach the target. The full
+per-label results were: `supported_recommendation` 0.727, 0.696, and 0.556;
+`bare_recommendation` 0.000 for all three seeds; and `experience_story` 0.621,
+0.714, and 0.667. Accuracy moved 0.067 across seeds, below the course's
+ten-point instability warning, but `supported_recommendation` moved 0.172 and
+the two never-predicted labels show that overall accuracy hides severe
+per-label failure. These runs used Apple Silicon GPU (`mps`), PyTorch 2.15.0,
+and seeds 42, 7, and 2024.
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| true \ predicted | contextual_request | supported_recommendation | bare_recommendation | experience_story |
+|---|---|---|---|---|
+| **contextual_request** | 0 | 0 | 0 | 2 |
+| **supported_recommendation** | 0 | 8 | 0 | 2 |
+| **bare_recommendation** | 0 | 2 | 0 | 5 |
+| **experience_story** | 0 | 2 | 0 | 9 |
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
+Five real `bare_recommendation` posts were called `experience_story`, while no
+real `experience_story` posts were called `bare_recommendation`; this lopsided
+error means the model defaults toward narration instead of recognizing short,
+unsupported endorsements and has not learned that boundary.
 
 
 
