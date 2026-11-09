@@ -526,10 +526,10 @@ learned:**
 <!-- Two sentences. Your confusion matrix is the evidence. -->
 I meant `bare_recommendation` to capture unsupported endorsements and
 `contextual_request` to capture requests with at least two constraints, but
-the model learned neither class and predicted zero examples of both. After the
-relabeling it instead overgeneralized concrete recommendation language,
-calling eight of eleven seed-42 `experience_story` posts
-`supported_recommendation`.
+the model learned neither class and made zero predictions in both matrix
+columns. Instead, the seed-42 matrix shows all two contextual requests called
+`experience_story`, while five of seven bare recommendations became
+`experience_story` and the other two became `supported_recommendation`.
 
 
 
