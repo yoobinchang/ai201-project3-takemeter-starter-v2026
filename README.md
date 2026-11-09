@@ -299,7 +299,7 @@ shows that longer definitions are not automatically a better zero-shot prompt.
 | 2. Macro F1 | >= 0.55 each seed | 0.337 | 0.352 | 0.306 | MISSED |
 | 3. F1 for each larger label | >= 0.60 each seed | 0.000 minimum | 0.000 minimum | 0.000 minimum | MISSED |
 | 4. `contextual_request` F1 | >= 0.35 each seed | 0.000 | 0.000 | 0.000 | MISSED |
-| 5. Independent agreement | >= 0.75 on 30 posts | Not seed-based | Not seed-based | Not seed-based | Pending agreement check |
+| 5. Independent agreement | >= 0.75 on 30 posts | 1.000 (not seed-based) | 1.000 (not seed-based) | 1.000 (not seed-based) | MET |
 
 The three larger-label values report the minimum F1 among
 `supported_recommendation`, `bare_recommendation`, and `experience_story`,
@@ -373,7 +373,7 @@ unsupported endorsements and has not learned that boundary.
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** 30 / 30 = 100%
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -395,25 +395,22 @@ unsupported endorsements and has not learned that boundary.
      written rule two different ways on 30 posts, that is direct evidence about
      what you did across your own 200. -->
 
-**1.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**2.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
+There were no disagreements to adjudicate or sort into piles (a), (b), and
+(c). My 30 labels were saved and committed before I opened the staff answer
+key.
 
 **What the pattern in my disagreements tells me:**
+The set was straightforward under the written rules, rather than evidence that
+all taxonomy boundaries are always easy. Posts 1–10 use checkable facts as the
+reason for their conclusions, posts 11–20 make unsupported general claims, and
+posts 21–30 report immediate personal experiences. The potentially deceptive
+case, the claim that times fell 3% after the shoe rules changed, is directly
+covered by rule 1: its statistic decorates an already-stated conclusion, so it
+is a `hot_take`, not `analysis`. Matching all 30 shows I can apply a detailed
+external taxonomy consistently, but because the staff set uses different
+labels and cleaner examples than my board-game dataset, it does not by itself
+prove that my `bare_recommendation` boundary was applied consistently across
+all 200 project posts.
 
 
 
