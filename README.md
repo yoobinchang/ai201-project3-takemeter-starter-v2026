@@ -492,15 +492,32 @@ result rather than hiding the failed improvement.
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
-Criteria 1 through 4 are still missed. The model still never predicts either
-`bare_recommendation` or `contextual_request`, so accuracy and macro F1 cannot
-reach their targets. My next step for `contextual_request` would be to collect
-about 30 more unambiguous examples because only 12 exist now. For
-`bare_recommendation`, I would collect new short title-only or generic-praise
-recommendations instead of removing more borderline rows; the relabeling left
-only 35 examples and did not teach the class. I stopped because the milestone
-requires one isolated change, and adding data or changing training settings in
-the same run would make its effect impossible to distinguish.
+1. **Overall accuracy (MISSED):** The model still never predicts
+   `bare_recommendation` or `contextual_request`, which makes every test example
+   from those classes wrong. I would expand both failed classes before another
+   run, starting with the smaller contextual class. I stopped because adding
+   examples would be a second improvement on top of the relabeling, so its
+   effect could not be separated in this experiment.
+2. **Macro F1 (MISSED):** Two of four labels still have 0.000 F1, so the macro
+   average remains far below 0.55. After collecting more minority examples, I
+   would test class-weighted loss as its own isolated training change so errors
+   on small classes cost more. I stopped because this milestone permits one
+   change, and changing both labels and the loss would confound the result.
+3. **Every larger label reaches 0.60 F1 (MISSED):**
+   `bare_recommendation` still has 0.000 F1 in every seed, and the audit reduced
+   it from 50 to 35 examples. I would collect about 30 new, unambiguous
+   title-only or generic-praise recommendations instead of removing more
+   borderline rows. I stopped after the boundary audit so that data collection
+   can be measured as a separate improvement.
+4. **`contextual_request` reaches 0.35 F1 (MISSED):** Only 12 examples exist,
+   about eight reach each training split, and the model never predicts the
+   label. I would collect about 30 requests that clearly contain at least two
+   decision-relevant constraints. I stopped because sourcing and carefully
+   labeling those posts is a separate dataset change, not part of the single
+   boundary fix tested here.
+
+Criterion 5 remains **MET** at 30/30 agreement, so it does not need another
+fix.
 
 
 
